@@ -19,3 +19,7 @@ puts other_obj[:first_name]
 other_obj[0] = "check 4"
 puts other_obj[0]
 other_obj.greeting
+
+other_obj.each_pair do |key, value|
+	puts "#{key}: #{value}"
+end

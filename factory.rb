@@ -18,7 +18,7 @@ module MyFactoryModule
 				define_method :[] do |arg|
 					if (arg.instance_of?(Fixnum))
 						raise IndexError.new if arg >= method_names.length || arg < 0
-						@inst_methods_values[arg]
+						send(method_names[arg])
 					else
 						#raise NameError.new if TODO
 						send(arg)  	
@@ -28,7 +28,7 @@ module MyFactoryModule
 				define_method :[]= do |arg, value|
 					if (arg.instance_of?(Fixnum))
 						raise IndexError.new if arg >= method_names.length || arg < 0
-						@inst_methods_values[arg] = value
+						send("#{method_names[arg]}=", value)
 					else
 						#raise NameError.new if TODO
 						send(:"#{arg}=", value)	
@@ -41,8 +41,8 @@ module MyFactoryModule
 					method_names.each do |method|
 						return false unless self.send(:"#{method}") == other_obj.send(:"#{method}")
 				        return false unless self.class == other_obj.class
-						return true
 					end
+					return true
 				end
 
 				define_method :each do |&block| 
@@ -58,7 +58,7 @@ module MyFactoryModule
 				define_method :each_pair do |&block|
 					if block_given?
 						method_names.count.times do |i|
-							block.call(method_names[i], @inst_methods_values[i])
+							block.call(method_names[i], send(method_names[i]))
 						end
 					else
 						#TODO return enumerator
