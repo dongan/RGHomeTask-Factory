@@ -35,7 +35,7 @@ module MyFactoryModule
 					end
 				end
 
-				block.call
+				block.call if block_given?
 
 				define_method :== do |other_obj|
 					method_names.each do |method|
